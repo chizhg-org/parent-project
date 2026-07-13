@@ -1,0 +1,24 @@
+child_repo = "git@github.com:chizhg-org/child-module-a.git"
+parent_repo = "git@github.com:chizhg-org/parent-project.git"
+
+core.workflow(
+    name = "default",
+    origin = git.origin(
+        url = child_repo,
+        ref = "main",
+    ),
+    origin_files = glob(["**"]),
+    destination = git.github_pr_destination(
+        url = parent_repo,
+        destination_ref = "main",
+        pr_branch = "copybara/update-child-module-a",
+        title = "Update child-module-a to ${COPYBARA_CURRENT_REV}",
+        body = "This PR updates the vendored child-module-a to version ${COPYBARA_CURRENT_REV}.",
+        update_description = True,
+    ),
+    destination_files = glob(["vendor/child_module_a/**"]),
+    authoring = authoring.overwrite("Copybara <copybara@example.com>"),
+    transformations = [
+        core.move("", "vendor/child_module_a"),
+    ],
+)
