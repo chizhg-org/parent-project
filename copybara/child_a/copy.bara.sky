@@ -5,7 +5,6 @@ core.workflow(
     name = "default",
     origin = git.origin(
         url = child_repo,
-        ref = "main",
         version_selector = core.latest_version(
             format = "refs/tags/v${n0}.${n1}.${n2}",
             regex_groups = {
@@ -14,14 +13,15 @@ core.workflow(
                 "n2": "[0-9]+",
             },
         ),
+        describe_version = True,
     ),
     origin_files = glob(["**"]),
     destination = git.github_pr_destination(
         url = parent_repo,
         destination_ref = "main",
         pr_branch = "copybara/update-child-module-a",
-        title = "Update child-module-a to ${COPYBARA_CURRENT_REV}",
-        body = "This PR updates the vendored child-module-a to version ${COPYBARA_CURRENT_REV}.\n\n${COPYBARA_CURRENT_MESSAGE}",
+        title = "Update child-module-a to ${GIT_DESCRIBE_CHANGE_VERSION}",
+        body = "This PR updates the vendored child-module-a to version ${GIT_DESCRIBE_CHANGE_VERSION}.\n\n${COPYBARA_CURRENT_MESSAGE}",
         update_description = True,
     ),
     destination_files = glob(["vendor/child_module_a/**"]),
