@@ -8,3 +8,6 @@ def feature_a2():
     return "Feature A2"
 def feature_a3():
     return "Feature A3"
+
+def feature_a4():
+    return "Feature A4"
