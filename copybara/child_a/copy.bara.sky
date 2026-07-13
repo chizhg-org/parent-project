@@ -17,6 +17,7 @@ core.workflow(
         update_description = True,
     ),
     destination_files = glob(["vendor/child_module_a/**"]),
+    mode = "SQUASH",
     authoring = authoring.overwrite("Copybara <copybara@example.com>"),
     transformations = [
         core.move("", "vendor/child_module_a"),
