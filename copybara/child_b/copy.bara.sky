@@ -13,7 +13,7 @@ core.workflow(
         destination_ref = "main",
         pr_branch = "copybara/update-child-module-b",
         title = "Update child-module-b to ${COPYBARA_CURRENT_REV}",
-        body = "This PR updates the vendored child-module-b to version ${COPYBARA_CURRENT_REV}.",
+        body = "This PR updates the vendored child-module-b to version ${COPYBARA_CURRENT_REV}.\n\n${COPYBARA_CURRENT_MESSAGE}",
         update_description = True,
     ),
     destination_files = glob(["vendor/child_module_b/**"]),
@@ -21,5 +21,6 @@ core.workflow(
     authoring = authoring.overwrite("Copybara <copybara@example.com>"),
     transformations = [
         core.move("", "vendor/child_module_b"),
+        metadata.squash_notes(prefix = "Squashed commits:\n"),
     ],
 )
